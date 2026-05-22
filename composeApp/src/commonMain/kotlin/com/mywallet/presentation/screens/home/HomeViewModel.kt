@@ -78,8 +78,8 @@ class HomeViewModel(
                     else it.sortedBy { t -> t.date }
                 }
                 
-                val income = transactions.filter { it.type.name == "INCOME" }.sumOf { it.amount }
-                val expense = transactions.filter { it.type.name == "EXPENSE" }.sumOf { it.amount }
+                val income = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.INCOME }.sumOf { it.amount }
+                val expense = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.EXPENSE }.sumOf { it.amount }
                 
                 HomeUiState.Success(
                     transactions = filtered,

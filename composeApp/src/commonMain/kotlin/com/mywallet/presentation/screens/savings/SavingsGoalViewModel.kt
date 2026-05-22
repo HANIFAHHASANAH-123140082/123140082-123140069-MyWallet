@@ -9,6 +9,7 @@ import com.mywallet.domain.repository.SavingsGoalRepository
 import com.mywallet.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -40,7 +41,7 @@ class SavingsGoalViewModel(
 
     fun updateCurrentAmount(id: Int, amount: Double) {
         viewModelScope.launch {
-            val goal = goals.value.find { it.id == id } ?: return@launch
+            val goal = repository.getAllGoals().first().find { it.id == id } ?: return@launch
             val diff = amount - goal.currentAmount
             
             if (diff != 0.0) {

@@ -1,6 +1,8 @@
 package com.mywallet.presentation.screens.stats
 
+import app.cash.turbine.test
 import com.mywallet.domain.model.Transaction
+import app.cash.turbine.test
 import com.mywallet.domain.model.TransactionType
 import com.mywallet.fakes.FakeTransactionRepository
 import com.mywallet.fakes.FakeUserRepository
@@ -43,13 +45,20 @@ class StatisticsViewModelTest {
             Transaction(2, "Makan", 100.0, TransactionType.EXPENSE, "Makanan", "21 May 2024", "12:00")
         )
         transactionRepo.emit(testData)
-        advanceUntilIdle()
-
-        val state = viewModel.uiState.value
-        assertTrue(state is StatisticsUiState.Success)
-        assertEquals(5000.0, (state as StatisticsUiState.Success).totalIncome)
-        assertEquals(100.0, state.totalExpense)
-        assertEquals(98.0, state.savingsRate)
+        
+        // Use turbine or collect to wait for the Success state
+        viewModel.uiState.test {
+            // Skip initial Loading state if it's there
+            var state = awaitItem()
+            if (state is StatisticsUiState.Loading) {
+                state = awaitItem()
+            }
+            
+            assertTrue(state is StatisticsUiState.Success)
+            assertEquals(5000.0, (state as StatisticsUiState.Success).totalIncome)
+            assertEquals(100.0, state.totalExpense)
+            assertEquals(98.0, state.savingsRate)
+        }
     }
 
     @Test
@@ -60,12 +69,17 @@ class StatisticsViewModelTest {
             Transaction(3, "C", 50.0, TransactionType.EXPENSE, "Lainnya", "D", "T")
         )
         transactionRepo.emit(testData)
-        advanceUntilIdle()
-
-        val state = viewModel.uiState.value
-        assertTrue(state is StatisticsUiState.Success)
-        val makananStat = (state as StatisticsUiState.Success).categoryBreakdown.find { it.category == "Makanan" }
-        assertEquals(300.0, makananStat?.amount)
-        assertEquals(2, state.categoryBreakdown.size)
+        
+        viewModel.uiState.test {
+            var state = awaitItem()
+            if (state is StatisticsUiState.Loading) {
+                state = awaitItem()
+            }
+            
+            assertTrue(state is StatisticsUiState.Success)
+            val makananStat = (state as StatisticsUiState.Success).categoryBreakdown.find { it.category == "Makanan" }
+            assertEquals(300.0, makananStat?.amount)
+            assertEquals(2, state.categoryBreakdown.size)
+        }
     }
 }
