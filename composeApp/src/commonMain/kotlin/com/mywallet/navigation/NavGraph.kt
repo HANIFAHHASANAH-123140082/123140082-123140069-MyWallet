@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,7 +34,10 @@ import com.mywallet.presentation.screens.home.HomeScreen
 import com.mywallet.presentation.screens.add.EditTransactionScreen
 import com.mywallet.presentation.screens.history.HistoryScreen
 import com.mywallet.presentation.screens.profile.ProfileScreen
+import com.mywallet.presentation.screens.stats.StatisticsScreen
+import com.mywallet.presentation.screens.savings.SavingsGoalScreen
 import com.mywallet.presentation.screens.splash.SplashScreen
+import com.mywallet.presentation.screens.auth.LoginScreen
 
 data class BottomNavItem(
     val title: String,
@@ -43,10 +48,15 @@ data class BottomNavItem(
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    
+    val showBottomBar = currentRoute != Screen.Splash.route && currentRoute != Screen.Login.route
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController) },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0) // Disable default inset handling to avoid double padding
+        bottomBar = { if (showBottomBar) BottomNavigationBar(navController) },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         AppNavHost(
             navController = navController,
@@ -68,8 +78,9 @@ fun AppNavHost(
     ) {
         composable(Screen.Splash.route) {
             SplashScreen(
-                onSplashFinished = {
-                    navController.navigate(Screen.Home.route) {
+                onSplashFinished = { needsAuth ->
+                    val targetRoute = if (needsAuth) Screen.Login.route else Screen.Home.route
+                    navController.navigate(targetRoute) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 }
@@ -82,6 +93,15 @@ fun AppNavHost(
                 },
                 onNavigateToAdd = {
                     navController.navigate(Screen.AddTransaction.route)
+                }
+            )
+        }
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onAuthenticated = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
                 }
             )
         }
@@ -117,6 +137,16 @@ fun AppNavHost(
                     navController.navigate(Screen.TransactionDetail.createRoute(id))
                 }
             )
+        }
+        composable(Screen.Statistics.route) {
+            StatisticsScreen(
+                onNavigateToDetail = { id ->
+                    navController.navigate(Screen.TransactionDetail.createRoute(id))
+                }
+            )
+        }
+        composable(Screen.SavingsGoal.route) {
+            SavingsGoalScreen()
         }
         composable(Screen.Profile.route) {
             ProfileScreen(
@@ -156,6 +186,8 @@ fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
         BottomNavItem("Beranda", Screen.Home.route, Icons.Default.Home),
         BottomNavItem("Riwayat", Screen.History.route, Icons.Default.History),
+        BottomNavItem("Target", Screen.SavingsGoal.route, Icons.Default.TrackChanges),
+        BottomNavItem("Statistik", Screen.Statistics.route, Icons.Default.BarChart),
         BottomNavItem("Profil", Screen.Profile.route, Icons.Default.Person)
     )
     NavigationBar {

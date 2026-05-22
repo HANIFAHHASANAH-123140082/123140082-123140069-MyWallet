@@ -14,23 +14,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mywallet.domain.repository.UserRepository
 import com.mywallet.theme.DarkNavy
 import kotlinx.coroutines.delay
+import org.koin.compose.koinInject
 
 @Composable
-fun SplashScreen(onSplashFinished: () -> Unit) {
+fun SplashScreen(
+    onSplashFinished: (Boolean) -> Unit,
+    userRepository: UserRepository = koinInject()
+) {
     val scale = remember { Animatable(0f) }
+    val profile by userRepository.profileState.collectAsState()
     
     LaunchedEffect(Unit) {
         scale.animateTo(
-            targetValue = 1.2f,
+            targetValue = 1f,
             animationSpec = tween(
-                durationMillis = 800,
+                durationMillis = 600,
                 easing = FastOutSlowInEasing
             )
         )
-        delay(1500)
-        onSplashFinished()
+        delay(1000)
+        onSplashFinished(profile.isBiometricEnabled)
     }
 
     Box(

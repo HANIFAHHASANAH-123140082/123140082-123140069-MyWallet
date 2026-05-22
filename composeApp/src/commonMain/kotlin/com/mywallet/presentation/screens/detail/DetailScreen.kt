@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Share
 import com.mywallet.presentation.components.LoadingIndicator
+import com.mywallet.utils.formatCurrency
 import com.mywallet.theme.DarkNavy
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -167,20 +168,4 @@ fun DetailCard(
             )
         }
     }
-}
-
-private fun formatCurrency(amount: Double): String {
-    val longAmount = amount.toLong()
-    val str = longAmount.toString()
-    val result = StringBuilder()
-    var count = 0
-    for (i in str.length - 1 downTo 0) {
-        result.append(str[i])
-        count++
-        if (count == 3 && i != 0) {
-            result.append('.')
-            count = 0
-        }
-    }
-    return result.reverse().toString()
 }
