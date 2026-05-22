@@ -1,6 +1,5 @@
 package com.mywallet.presentation.screens.home
 
-import app.cash.turbine.test
 import com.mywallet.domain.model.Transaction
 import com.mywallet.domain.model.TransactionType
 import com.mywallet.fakes.FakeCurrencyService
@@ -35,7 +34,9 @@ class HomeViewModelTest {
 
     @Test
     fun `initial state should be Loading`() = runTest {
-        assertEquals(HomeUiState.Loading, viewModel.uiState.value)
+        val newRepo = FakeTransactionRepository()
+        val vm = HomeViewModel(newRepo, userRepo, currencyService)
+        assertEquals(HomeUiState.Loading, vm.uiState.value)
     }
 
     @Test
@@ -45,18 +46,14 @@ class HomeViewModelTest {
             Transaction(2, "Expense", 400.0, TransactionType.EXPENSE, "Makan", "2024-01-02", "12:00")
         )
         transactionRepo.emit(testData)
-        
-        viewModel.uiState.test {
-            val state = awaitItem()
-            if (state is HomeUiState.Success) {
-                assertEquals(600.0, state.balance)
-                assertEquals(1000.0, state.totalIncome)
-                assertEquals(400.0, state.totalExpense)
-                assertEquals(2, state.transactions.size)
-            } else {
-                fail("Expected HomeUiState.Success, got $state")
-            }
-        }
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertTrue(state is HomeUiState.Success)
+        assertEquals(600.0, (state as HomeUiState.Success).balance)
+        assertEquals(1000.0, state.totalIncome)
+        assertEquals(400.0, state.totalExpense)
+        assertEquals(2, state.transactions.size)
     }
 
     @Test
@@ -66,18 +63,15 @@ class HomeViewModelTest {
             Transaction(2, "Roti", 20.0, TransactionType.EXPENSE, "Makanan", "2024-01-01", "10:00")
         )
         transactionRepo.emit(testData)
-        
+        advanceUntilIdle()
+
         viewModel.onSearchQueryChange("Susu")
-        
-        viewModel.uiState.test {
-            val state = awaitItem()
-            if (state is HomeUiState.Success) {
-                assertEquals(1, state.transactions.size)
-                assertEquals("Susu", state.transactions[0].title)
-            } else {
-                fail("Expected Success")
-            }
-        }
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertTrue(state is HomeUiState.Success)
+        assertEquals(1, (state as HomeUiState.Success).transactions.size)
+        assertEquals("Susu", state.transactions[0].title)
     }
 
     @Test
@@ -87,17 +81,14 @@ class HomeViewModelTest {
             Transaction(2, "E", 50.0, TransactionType.EXPENSE, "Makan", "D", "T")
         )
         transactionRepo.emit(testData)
-        
+        advanceUntilIdle()
+
         viewModel.onFilterTypeChange("INCOME")
-        
-        viewModel.uiState.test {
-            val state = awaitItem()
-            if (state is HomeUiState.Success) {
-                assertEquals(1, state.transactions.size)
-                assertEquals(TransactionType.INCOME, state.transactions[0].type)
-            } else {
-                fail("Expected Success")
-            }
-        }
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertTrue(state is HomeUiState.Success)
+        assertEquals(1, (state as HomeUiState.Success).transactions.size)
+        assertEquals(TransactionType.INCOME, state.transactions[0].type)
     }
 }
