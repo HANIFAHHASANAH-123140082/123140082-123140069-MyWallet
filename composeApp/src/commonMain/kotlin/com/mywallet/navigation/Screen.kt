@@ -22,8 +22,3 @@ sealed class Screen(val route: String) {
         fun createRoute(title: String) = "settings_detail/$title"
     }
 }
-
-object NavArgs {
-    const val TRANSACTION_ID = "transactionId"
-    const val TITLE = "title"
-}

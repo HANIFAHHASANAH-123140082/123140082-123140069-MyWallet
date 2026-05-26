@@ -50,8 +50,9 @@ fun MainNavigation() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    
-    val showBottomBar = currentRoute != Screen.Splash.route && currentRoute != Screen.Login.route
+
+    val showBottomBar = currentRoute != Screen.Splash.route &&
+            currentRoute != Screen.Login.route
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -60,7 +61,9 @@ fun MainNavigation() {
     ) { innerPadding ->
         AppNavHost(
             navController = navController,
-            modifier = Modifier.padding(innerPadding).fillMaxSize()
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         )
     }
 }
@@ -86,6 +89,17 @@ fun AppNavHost(
                 }
             )
         }
+
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onAuthenticated = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Screen.Home.route) {
             HomeScreen(
                 onNavigateToDetail = { id ->
@@ -96,41 +110,36 @@ fun AppNavHost(
                 }
             )
         }
-        composable(Screen.Login.route) {
-            LoginScreen(
-                onAuthenticated = {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
-                    }
-                }
-            )
-        }
+
         composable(
             route = Screen.TransactionDetail.route,
-            arguments = listOf(navArgument(NavArgs.TRANSACTION_ID) { type = NavType.IntType })
+            arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt(NavArgs.TRANSACTION_ID) ?: return@composable
+            val id = backStackEntry.arguments?.getInt("transactionId") ?: return@composable
             DetailScreen(
                 transactionId = id,
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToEdit = { navController.navigate(Screen.EditTransaction.createRoute(id)) }
             )
         }
+
         composable(
             route = Screen.EditTransaction.route,
-            arguments = listOf(navArgument(NavArgs.TRANSACTION_ID) { type = NavType.IntType })
+            arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt(NavArgs.TRANSACTION_ID) ?: return@composable
+            val id = backStackEntry.arguments?.getInt("transactionId") ?: return@composable
             EditTransactionScreen(
                 transactionId = id,
                 onNavigateBack = { navController.popBackStack() }
             )
         }
+
         composable(Screen.AddTransaction.route) {
             AddTransactionScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
+
         composable(Screen.History.route) {
             HistoryScreen(
                 onNavigateToDetail = { id ->
@@ -138,6 +147,7 @@ fun AppNavHost(
                 }
             )
         }
+
         composable(Screen.Statistics.route) {
             StatisticsScreen(
                 onNavigateToDetail = { id ->
@@ -145,9 +155,11 @@ fun AppNavHost(
                 }
             )
         }
+
         composable(Screen.SavingsGoal.route) {
             SavingsGoalScreen()
         }
+
         composable(Screen.Profile.route) {
             ProfileScreen(
                 onNavigateToSettings = { title ->
@@ -155,26 +167,42 @@ fun AppNavHost(
                 }
             )
         }
+
         composable(
             route = Screen.SettingsDetail.route,
-            arguments = listOf(navArgument(NavArgs.TITLE) { type = NavType.StringType })
+            arguments = listOf(navArgument("title") { type = NavType.StringType })
         ) { backStackEntry ->
-            val title = backStackEntry.arguments?.getString(NavArgs.TITLE) ?: ""
-            Scaffold(
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        title = { Text(title) },
-                        navigationIcon = {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkNavy, titleContentColor = Color.White)
-                    )
-                }
-            ) { padding ->
-                Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
-                    Text("Halaman $title akan segera hadir!", style = MaterialTheme.typography.bodyLarge)
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            if (title == "Pengaturan Akun") {
+
+            } else {
+                Scaffold(
+                    topBar = {
+                        CenterAlignedTopAppBar(
+                            title = { Text(title, color = Color.White) },
+                            navigationIcon = {
+                                IconButton(onClick = { navController.popBackStack() }) {
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back",
+                                        tint = Color.White
+                                    )
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = DarkNavy
+                            )
+                        )
+                    }
+                ) { p ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(p),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Halaman $title akan segera hadir!")
+                    }
                 }
             }
         }
