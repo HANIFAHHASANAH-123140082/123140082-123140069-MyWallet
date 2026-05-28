@@ -1,4 +1,4 @@
-package com.mywallet.presentation.screens.home
+﻿package com.mywallet.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,6 +33,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomeScreen(
     onNavigateToDetail: (Int) -> Unit,
     onNavigateToAdd: () -> Unit,
+    onNavigateToHistory: () -> Unit = {},
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -150,7 +151,7 @@ fun HomeScreen(
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
-                                    TextButton(onClick = {}) {
+                                    TextButton(onClick = onNavigateToHistory) {
                                         Text("Lihat Semua", color = MaterialTheme.colorScheme.primary)
                                     }
                                 }
