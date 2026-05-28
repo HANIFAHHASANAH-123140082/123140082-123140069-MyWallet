@@ -96,7 +96,9 @@ class HomeViewModel(
 =======
                 val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
                 val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
-                
+                val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
+                val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
+
                 HomeUiState.Success(
                     transactions = filtered,
                     balance = income - expense,
