@@ -1,4 +1,4 @@
-package com.mywallet.navigation
+﻿package com.mywallet.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -38,6 +38,7 @@ import com.mywallet.presentation.screens.stats.StatisticsScreen
 import com.mywallet.presentation.screens.savings.SavingsGoalScreen
 import com.mywallet.presentation.screens.splash.SplashScreen
 import com.mywallet.presentation.screens.auth.LoginScreen
+import com.mywallet.presentation.screens.settings.SettingsScreen
 
 data class BottomNavItem(
     val title: String,
@@ -174,7 +175,7 @@ fun AppNavHost(
         ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
             if (title == "Pengaturan Akun") {
-
+                SettingsScreen(onNavigateBack = { navController.popBackStack() })
             } else {
                 Scaffold(
                     topBar = {

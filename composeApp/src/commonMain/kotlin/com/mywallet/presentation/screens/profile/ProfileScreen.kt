@@ -1,4 +1,4 @@
-package com.mywallet.presentation.screens.profile
+﻿package com.mywallet.presentation.screens.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +40,7 @@ fun ProfileScreen(
     val uiState by viewModel.uiState.collectAsState()
     val transactionCount by viewModel.transactionCount.collectAsState()
     val isDark = isSystemInDarkTheme()
-    val headerTextColor = if (isDark) Color.Black else Color.White
+    val headerTextColor = Color.White
     
     var showEditDialog by remember { mutableStateOf(false) }
     var tempName by remember { mutableStateOf("") }
