@@ -2,6 +2,7 @@ package com.mywallet.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mywallet.domain.model.TransactionType
 import com.mywallet.domain.repository.TransactionRepository
 import com.mywallet.domain.repository.UserRepository
 import com.mywallet.data.remote.CurrencyService
@@ -78,6 +79,7 @@ class HomeViewModel(
                     else it.sortedBy { t -> t.date }
                 }
                 
+<<<<<<< Updated upstream
                 val income = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.INCOME }.sumOf { it.amount }
                 val expense = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.EXPENSE }.sumOf { it.amount }
 
@@ -91,6 +93,17 @@ class HomeViewModel(
                         totalExpense = expense
                     )
                 }
+=======
+                val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
+                val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
+                
+                HomeUiState.Success(
+                    transactions = filtered,
+                    balance = income - expense,
+                    totalIncome = income,
+                    totalExpense = expense
+                )
+>>>>>>> Stashed changes
             }.catch { e -> 
                 _uiState.value = HomeUiState.Error(e.message ?: "Terjadi kesalahan") 
             }.collect { 

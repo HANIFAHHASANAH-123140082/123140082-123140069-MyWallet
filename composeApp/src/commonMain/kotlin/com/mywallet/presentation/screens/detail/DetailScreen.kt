@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Share
 import com.mywallet.presentation.components.LoadingIndicator
 import com.mywallet.utils.formatCurrency
+import com.mywallet.utils.formatIsoDateToDisplay
 import com.mywallet.theme.DarkNavy
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +105,7 @@ fun DetailScreen(
                     
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Box(modifier = Modifier.weight(1f)) {
-                            DetailCard(label = "Tanggal", value = transaction.date)
+                            DetailCard(label = "Tanggal", value = formatIsoDateToDisplay(transaction.date))
                         }
                         Box(modifier = Modifier.weight(1f)) {
                             DetailCard(label = "Waktu", value = transaction.time)

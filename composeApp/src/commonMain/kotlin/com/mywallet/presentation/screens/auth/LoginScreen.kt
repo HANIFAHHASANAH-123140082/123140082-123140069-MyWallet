@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mywallet.presentation.components.AppLogoIcon
 
 @Composable
 fun LoginScreen(
@@ -23,7 +24,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary),
+            .background(Color.White), // Menggunakan latar putih
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -31,34 +32,24 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(32.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Lock,
-                    contentDescription = null,
-                    modifier = Modifier.size(60.dp),
-                    tint = Color.White
-                )
-            }
+            AppLogoIcon(
+                modifier = Modifier.size(150.dp),
+                useOuterRing = true // Mengaktifkan ring yang sekarang sudah biru tua
+            )
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             
             Text(
-                "MyWallet Terkunci",
-                style = MaterialTheme.typography.headlineMedium,
+                "MyWallet",
+                style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Black,
-                color = Color.White
+                color = Color(0xFF001F3F) // DarkNavy
             )
             
             Text(
-                "Gunakan sidik jari untuk membuka",
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.White.copy(alpha = 0.8f)
+                "Aplikasi Terkunci",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color(0xFF001F3F).copy(alpha = 0.6f)
             )
             
             Spacer(modifier = Modifier.height(48.dp))

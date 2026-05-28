@@ -1,6 +1,5 @@
 ﻿package com.mywallet.presentation.screens.stats
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,8 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,14 +67,6 @@ fun StatisticsContent(
         modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            SummaryRow(state.totalIncome, state.totalExpense)
-        }
-
-        item {
-            CategoryBreakdownSection(state.categoryBreakdown)
-        }
-
         item {
             var selectedTab by remember { mutableStateOf(0) }
             val tabs = listOf("7 Hari", "1 Bulan", "1 Tahun")
@@ -179,65 +168,6 @@ fun SummaryRow(income: Double, expense: Double) {
                     Text("Rp ${formatCurrency(expense)}", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.error)
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun CategoryBreakdownSection(breakdown: List<CategoryStat>) {
-    if (breakdown.isEmpty()) return
-
-    Text("Analisis Kategori", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-    
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DonutChart(
-                data = breakdown,
-                modifier = Modifier.size(140.dp)
-            )
-            
-            Spacer(modifier = Modifier.width(24.dp))
-            
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                breakdown.take(4).forEach { stat ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(stat.color))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(stat.category, style = MaterialTheme.typography.labelMedium, maxLines = 1)
-                    }
-                }
-                if (breakdown.size > 4) {
-                    Text("+ ${breakdown.size - 4} lainnya", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun DonutChart(data: List<CategoryStat>, modifier: Modifier = Modifier) {
-    val total = data.sumOf { it.amount }
-    if (total <= 0) return
-
-    Canvas(modifier = modifier) {
-        var startAngle = -90f
-        data.forEach { stat ->
-            val sweepAngle = (stat.amount / total * 360).toFloat()
-            drawArc(
-                color = stat.color,
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = false,
-                style = Stroke(width = 40f, cap = StrokeCap.Round)
-            )
-            startAngle += sweepAngle
         }
     }
 }

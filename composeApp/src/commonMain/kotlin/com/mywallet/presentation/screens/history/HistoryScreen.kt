@@ -21,6 +21,7 @@ import com.mywallet.presentation.components.TransactionItem
 import com.mywallet.presentation.screens.home.HomeUiState
 import com.mywallet.presentation.screens.home.HomeViewModel
 import com.mywallet.theme.Spacing
+import com.mywallet.utils.formatIsoDateToDisplay
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -188,7 +189,7 @@ fun HistoryScreen(
                             groupedTransactions.forEach { (date, transactions) ->
                                 item {
                                     Text(
-                                        text = date,
+                                        text = formatIsoDateToDisplay(date),
                                         style = MaterialTheme.typography.labelLarge,
                                         color = MaterialTheme.colorScheme.primary,
                                         fontWeight = FontWeight.SemiBold,

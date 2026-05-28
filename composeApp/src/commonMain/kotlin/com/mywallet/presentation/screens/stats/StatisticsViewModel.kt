@@ -68,8 +68,13 @@ class StatisticsViewModel(
                 .groupBy { it.date }
                 .map { (date, list) ->
                     val label = try {
-                        val parts = date.split(" ")
-                        if (parts.size >= 2) "${parts[0]} ${parts[1].take(3)}" else date
+                        if (date.contains("-")) {
+                            val parts = date.split("-")
+                            if (parts.size == 3) "${parts[2]}/${parts[1]}" else date
+                        } else {
+                            val parts = date.split(" ")
+                            if (parts.size >= 2) "${parts[0]} ${parts[1].take(3)}" else date
+                        }
                     } catch (e: Exception) {
                         date.take(5)
                     }
@@ -82,14 +87,25 @@ class StatisticsViewModel(
             // Group by month for monthly
             val monthlyStats = transactions
                 .groupBy { 
-                    try { it.date.split(" ")[1] } catch(e: Exception) { "Unknown" }
+                    try { 
+                        if (it.date.contains("-")) {
+                            val monthNum = it.date.split("-")[1].toInt()
+                            val monthNames = listOf("Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des")
+                            monthNames[monthNum - 1]
+                        } else {
+                            it.date.split(" ")[1] 
+                        }
+                    } catch(e: Exception) { "Unknown" }
                 }
                 .map { (month, list) -> DailyStat(month, list.sumOf { it.amount }) }
 
             // Group by year for yearly
             val yearlyStats = transactions
                 .groupBy { 
-                    try { it.date.split(" ")[2] } catch(e: Exception) { "Year" }
+                    try { 
+                        if (it.date.contains("-")) it.date.split("-")[0]
+                        else it.date.split(" ")[2] 
+                    } catch(e: Exception) { "Year" }
                 }
                 .map { (year, list) -> DailyStat(year, list.sumOf { it.amount }) }
 

@@ -21,6 +21,7 @@ import com.mywallet.domain.model.Transaction
 import com.mywallet.domain.model.TransactionType
 import com.mywallet.theme.Spacing
 import com.mywallet.utils.formatCurrency
+import com.mywallet.utils.formatIsoDateToDisplay
 
 @Composable
 fun TransactionItem(
@@ -76,7 +77,7 @@ fun TransactionItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "${transaction.date} • ${transaction.time}",
+                    text = "${formatIsoDateToDisplay(transaction.date)} • ${transaction.time}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

@@ -7,14 +7,13 @@ import com.mywallet.domain.model.Transaction
 import com.mywallet.domain.model.TransactionType
 import com.mywallet.domain.repository.SavingsGoalRepository
 import com.mywallet.domain.repository.TransactionRepository
+import com.mywallet.utils.getCurrentIsoDate
+import com.mywallet.utils.getCurrentTime
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 class SavingsGoalViewModel(
     private val repository: SavingsGoalRepository,
@@ -49,12 +48,8 @@ class SavingsGoalViewModel(
                 repository.updateCurrentAmount(id, amount)
                 
                 // Add a transaction to reflect the balance change
-                val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                val monthName = now.month.name.lowercase().replaceFirstChar { 
-                    if (it.isLowerCase()) it.titlecase() else it.toString() 
-                }
-                val dateStr = "${now.dayOfMonth} $monthName ${now.year}"
-                val timeStr = "${now.hour}:${now.minute}"
+                val dateStr = getCurrentIsoDate()
+                val timeStr = getCurrentTime()
                 
                 transactionRepository.insertTransaction(
                     Transaction(

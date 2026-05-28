@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.mywallet.domain.model.Transaction
 import com.mywallet.domain.model.TransactionType
 import com.mywallet.domain.repository.TransactionRepository
+import com.mywallet.utils.getCurrentIsoDate
+import com.mywallet.utils.getCurrentTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,10 +16,10 @@ data class AddTransactionUiState(
     val title: String = "",
     val amount: String = "",
     val type: TransactionType = TransactionType.EXPENSE,
-    val category: String = "Lainnya", // Added category
-    val date: String = "",
-    val time: String = "",
-    val isRecurring: Boolean = false, // Added recurring
+    val category: String = "Lainnya", 
+    val date: String = getCurrentIsoDate(), // Default ke hari ini
+    val time: String = getCurrentTime(), // Default ke waktu sekarang
+    val isRecurring: Boolean = false,
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
     val errorMessage: String? = null
@@ -71,20 +73,24 @@ class AddTransactionViewModel(
         
         _uiState.value = state.copy(isLoading = true, errorMessage = null)
         viewModelScope.launch {
-            repository.insertTransaction(
-                Transaction(
-                    id = 0,
-                    title = state.title,
-                    amount = amount,
-                    type = state.type,
-                    category = state.category,
-                    date = state.date,
-                    time = if (state.time.isBlank()) "00:00" else state.time,
-                    isRecurring = state.isRecurring
+            try {
+                repository.insertTransaction(
+                    Transaction(
+                        id = 0,
+                        title = state.title,
+                        amount = amount,
+                        type = state.type,
+                        category = state.category,
+                        date = state.date,
+                        time = if (state.time.isBlank()) "00:00" else state.time,
+                        isRecurring = state.isRecurring
+                    )
                 )
-            )
-            _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
-            onSuccess()
+                _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
+                onSuccess()
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(isLoading = false, errorMessage = "Gagal menyimpan transaksi: ${e.message}")
+            }
         }
     }
 
@@ -102,20 +108,24 @@ class AddTransactionViewModel(
         
         _uiState.value = state.copy(isLoading = true, errorMessage = null)
         viewModelScope.launch {
-            repository.updateTransaction(
-                Transaction(
-                    id = id,
-                    title = state.title,
-                    amount = amount,
-                    type = state.type,
-                    category = state.category,
-                    date = state.date,
-                    time = if (state.time.isBlank()) "00:00" else state.time,
-                    isRecurring = state.isRecurring
+            try {
+                repository.updateTransaction(
+                    Transaction(
+                        id = id,
+                        title = state.title,
+                        amount = amount,
+                        type = state.type,
+                        category = state.category,
+                        date = state.date,
+                        time = if (state.time.isBlank()) "00:00" else state.time,
+                        isRecurring = state.isRecurring
+                    )
                 )
-            )
-            _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
-            onSuccess()
+                _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
+                onSuccess()
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(isLoading = false, errorMessage = "Gagal memperbarui transaksi: ${e.message}")
+            }
         }
     }
 }

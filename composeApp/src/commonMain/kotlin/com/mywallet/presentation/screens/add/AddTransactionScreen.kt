@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.mywallet.domain.model.TransactionType
+import com.mywallet.utils.formatIsoDateToDisplay
 import com.mywallet.utils.formatMillisToDate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,8 +85,8 @@ fun AddTransactionScreen(
                 prefix = { Text("Rp ") }
             )
             OutlinedTextField(
-                value = uiState.date,
-                onValueChange = viewModel::onDateChange,
+                value = formatIsoDateToDisplay(uiState.date),
+                onValueChange = {},
                 label = { Text("Tanggal") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
