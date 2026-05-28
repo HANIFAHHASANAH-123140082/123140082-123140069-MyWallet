@@ -40,7 +40,7 @@ fun HomeScreen(
     val exchangeRate by viewModel.exchangeRate.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val isDark = isSystemInDarkTheme()
-    val headerTextColor = if (isDark) Color.Black else Color.White
+    val headerTextColor = Color.White
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -180,6 +180,33 @@ fun HomeScreen(
                         }
                         is HomeUiState.Loading -> {
                             LoadingIndicator()
+                        }
+                        is HomeUiState.Empty -> {
+                            BalanceCard(balance = 0.0, income = 0.0, expense = 0.0)
+                            Spacer(modifier = Modifier.height(Spacing.md))
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountBalanceWallet,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(64.dp),
+                                        tint = MaterialTheme.colorScheme.outline
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Text(
+                                        text = "Belum ada transaksi",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Tap + untuk menambah transaksi pertama",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.outline
+                                    )
+                                }
+                            }
                         }
                         else -> {
                             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

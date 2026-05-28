@@ -80,13 +80,17 @@ class HomeViewModel(
                 
                 val income = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.INCOME }.sumOf { it.amount }
                 val expense = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.EXPENSE }.sumOf { it.amount }
-                
-                HomeUiState.Success(
-                    transactions = filtered,
-                    balance = income - expense,
-                    totalIncome = income,
-                    totalExpense = expense
-                )
+
+                if (transactions.isEmpty()) {
+                    HomeUiState.Empty
+                } else {
+                    HomeUiState.Success(
+                        transactions = filtered,
+                        balance = income - expense,
+                        totalIncome = income,
+                        totalExpense = expense
+                    )
+                }
             }.catch { e -> 
                 _uiState.value = HomeUiState.Error(e.message ?: "Terjadi kesalahan") 
             }.collect { 

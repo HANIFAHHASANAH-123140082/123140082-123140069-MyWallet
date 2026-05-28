@@ -4,6 +4,7 @@ import com.mywallet.domain.model.Transaction
 
 sealed interface HomeUiState {
     data object Loading : HomeUiState
+    data object Empty : HomeUiState
     data class Success(
         val transactions: List<Transaction>,
         val balance: Double,
