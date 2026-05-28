@@ -1,4 +1,4 @@
-package com.mywallet.presentation.screens.stats
+﻿package com.mywallet.presentation.screens.stats
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -83,7 +83,7 @@ fun StatisticsContent(
             val tabs = listOf("7 Hari", "1 Bulan", "1 Tahun")
             
             Column {
-                TabRow(
+                PrimaryTabRow(
                     selectedTabIndex = selectedTab,
                     containerColor = Color.Transparent,
                     contentColor = MaterialTheme.colorScheme.primary,

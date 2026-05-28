@@ -1,10 +1,10 @@
-package com.mywallet.presentation.screens.detail
+﻿package com.mywallet.presentation.screens.detail
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -32,7 +32,7 @@ fun DetailScreen(
     var showDeleteDialog by remember { mutableStateOf(false) }
     val uiState by viewModel.uiState.collectAsState()
     val isDark = isSystemInDarkTheme()
-    val headerTextColor = if (isDark) Color.Black else Color.White
+    val headerTextColor = Color.White
 
     LaunchedEffect(transactionId) {
         viewModel.loadTransaction(transactionId)
@@ -52,7 +52,7 @@ fun DetailScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = headerTextColor)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Kembali", tint = headerTextColor)
                     }
                 },
                 actions = {
