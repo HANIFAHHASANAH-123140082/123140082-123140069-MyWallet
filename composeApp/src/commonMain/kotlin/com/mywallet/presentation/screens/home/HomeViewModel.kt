@@ -23,10 +23,10 @@ class HomeViewModel(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    private val _filterType = MutableStateFlow<String?>(null) // null for ALL, "INCOME", "EXPENSE"
+    private val _filterType = MutableStateFlow<String?>(null)
     val filterType: StateFlow<String?> = _filterType.asStateFlow()
 
-    private val _sortOrder = MutableStateFlow(true) // true for Newest, false for Oldest
+    private val _sortOrder = MutableStateFlow(true)
     val sortOrder: StateFlow<Boolean> = _sortOrder.asStateFlow()
 
     val userName: StateFlow<String> = userRepository.profileState
@@ -45,7 +45,6 @@ class HomeViewModel(
         viewModelScope.launch {
             _isRefreshing.value = true
             loadExchangeRate()
-            // Transactions are reactive from SQLDelight, but we could re-trigger if needed
             _isRefreshing.value = false
         }
     }
@@ -70,16 +69,15 @@ class HomeViewModel(
                 _sortOrder
             ) { transactions, query, type, newestFirst ->
                 val filtered = transactions.filter {
-                    val matchesQuery = it.title.contains(query, ignoreCase = true) || 
-                                     it.amount.toString().contains(query)
+                    val matchesQuery = it.title.contains(query, ignoreCase = true) ||
+                            it.amount.toString().contains(query)
                     val matchesType = type == null || it.type.name == type
                     matchesQuery && matchesType
                 }.let {
-                    if (newestFirst) it.sortedByDescending { t -> t.date } 
+                    if (newestFirst) it.sortedByDescending { t -> t.date }
                     else it.sortedBy { t -> t.date }
                 }
-                
-<<<<<<< Updated upstream
+
                 val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
                 val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
 
@@ -93,22 +91,9 @@ class HomeViewModel(
                         totalExpense = expense
                     )
                 }
-=======
-                val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
-                val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
-                val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
-                val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
-
-                HomeUiState.Success(
-                    transactions = filtered,
-                    balance = income - expense,
-                    totalIncome = income,
-                    totalExpense = expense
-                )
->>>>>>> Stashed changes
-            }.catch { e -> 
-                _uiState.value = HomeUiState.Error(e.message ?: "Terjadi kesalahan") 
-            }.collect { 
+            }.catch { e ->
+                _uiState.value = HomeUiState.Error(e.message ?: "Terjadi kesalahan")
+            }.collect {
                 _uiState.value = it
             }
         }
