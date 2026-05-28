@@ -38,8 +38,6 @@ import com.mywallet.presentation.screens.history.HistoryScreen
 import com.mywallet.presentation.screens.profile.ProfileScreen
 import com.mywallet.presentation.screens.stats.StatisticsScreen
 import com.mywallet.presentation.screens.savings.SavingsGoalScreen
-import com.mywallet.presentation.screens.splash.SplashScreen
-import com.mywallet.presentation.screens.auth.LoginScreen
 import com.mywallet.presentation.screens.settings.SettingsScreen
 import com.mywallet.presentation.screens.settings.SecurityScreen
 import com.mywallet.presentation.screens.settings.HelpScreen
@@ -54,15 +52,11 @@ data class BottomNavItem(
 @Composable
 fun MainNavigation() {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute != Screen.Splash.route &&
-            currentRoute != Screen.Login.route
-
+    // Bottom bar sekarang selalu muncul karena kita langsung berada di halaman dalam aplikasi
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { if (showBottomBar) BottomNavigationBar(navController) },
+        bottomBar = { BottomNavigationBar(navController) },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         AppNavHost(
@@ -82,30 +76,11 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route,
+        startDestination = Screen.Home.route, // MUTLAK: Aplikasi langsung start di Beranda (Home)
         modifier = modifier
     ) {
-        composable(Screen.Splash.route) {
-            SplashScreen(
-                onSplashFinished = { needsAuth ->
-                    val targetRoute = if (needsAuth) Screen.Login.route else Screen.Home.route
-                    navController.navigate(targetRoute) {
-                        popUpTo(Screen.Splash.route) { inclusive = true }
-                    }
-                }
-            )
-        }
 
-        composable(Screen.Login.route) {
-            LoginScreen(
-                onAuthenticated = {
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
-                    }
-                }
-            )
-        }
-
+        // Halaman 1: Langsung Beranda (Home)
         composable(Screen.Home.route) {
             HomeScreen(
                 onNavigateToDetail = { id ->
@@ -117,6 +92,7 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 2: Detail Transaksi
         composable(
             route = Screen.TransactionDetail.route,
             arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
@@ -129,6 +105,7 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 3: Edit Transaksi
         composable(
             route = Screen.EditTransaction.route,
             arguments = listOf(navArgument("transactionId") { type = NavType.IntType })
@@ -140,12 +117,14 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 4: Tambah Transaksi
         composable(Screen.AddTransaction.route) {
             AddTransactionScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
 
+        // Halaman 5: Riwayat Transaksi
         composable(Screen.History.route) {
             HistoryScreen(
                 onNavigateToDetail = { id ->
@@ -154,6 +133,7 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 6: Statistik Keuangan
         composable(Screen.Statistics.route) {
             StatisticsScreen(
                 onNavigateToDetail = { id ->
@@ -162,10 +142,12 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 7: Target Tabungan
         composable(Screen.SavingsGoal.route) {
             SavingsGoalScreen()
         }
 
+        // Halaman 8: Profil User
         composable(Screen.Profile.route) {
             ProfileScreen(
                 onNavigateToSettings = { title ->
@@ -174,6 +156,7 @@ fun AppNavHost(
             )
         }
 
+        // Halaman 9: Detail Pengaturan (Sub-menu dari Profil)
         composable(
             route = Screen.SettingsDetail.route,
             arguments = listOf(navArgument("title") { type = NavType.StringType })
