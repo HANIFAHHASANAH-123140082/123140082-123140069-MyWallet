@@ -80,8 +80,8 @@ class HomeViewModel(
                 }
                 
 <<<<<<< Updated upstream
-                val income = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.INCOME }.sumOf { it.amount }
-                val expense = transactions.filter { it.type == com.mywallet.domain.model.TransactionType.EXPENSE }.sumOf { it.amount }
+                val income = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
+                val expense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
 
                 if (transactions.isEmpty()) {
                     HomeUiState.Empty
