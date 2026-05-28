@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.mywallet.theme.DarkNavy
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,6 +41,9 @@ import com.mywallet.presentation.screens.savings.SavingsGoalScreen
 import com.mywallet.presentation.screens.splash.SplashScreen
 import com.mywallet.presentation.screens.auth.LoginScreen
 import com.mywallet.presentation.screens.settings.SettingsScreen
+import com.mywallet.presentation.screens.settings.SecurityScreen
+import com.mywallet.presentation.screens.settings.HelpScreen
+import com.mywallet.presentation.screens.settings.AboutScreen
 
 data class BottomNavItem(
     val title: String,
@@ -177,32 +182,28 @@ fun AppNavHost(
             if (title == "Pengaturan Akun") {
                 SettingsScreen(onNavigateBack = { navController.popBackStack() })
             } else {
-                Scaffold(
-                    topBar = {
-                        CenterAlignedTopAppBar(
-                            title = { Text(title, color = Color.White) },
-                            navigationIcon = {
-                                IconButton(onClick = { navController.popBackStack() }) {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Back",
-                                        tint = Color.White
-                                    )
-                                }
-                            },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = DarkNavy
-                            )
-                        )
-                    }
-                ) { p ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(p),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("Halaman $title akan segera hadir!")
+                when (title) {
+                    "Keamanan" -> SecurityScreen(onNavigateBack = { navController.popBackStack() })
+                    "Pusat Bantuan" -> HelpScreen(onNavigateBack = { navController.popBackStack() })
+                    "Tentang Aplikasi" -> AboutScreen(onNavigateBack = { navController.popBackStack() })
+                    else -> {
+                        Scaffold(
+                            topBar = {
+                                CenterAlignedTopAppBar(
+                                    title = { Text(title, color = Color.White) },
+                                    navigationIcon = {
+                                        IconButton(onClick = { navController.popBackStack() }) {
+                                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                                        }
+                                    },
+                                    colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkNavy)
+                                )
+                            }
+                        ) { p ->
+                            Box(modifier = Modifier.fillMaxSize().padding(p), contentAlignment = Alignment.Center) {
+                                Text("Halaman $title akan segera hadir!")
+                            }
+                        }
                     }
                 }
             }
@@ -239,4 +240,15 @@ fun BottomNavigationBar(navController: NavHostController) {
             )
         }
     }
+}
+
+@Composable
+fun SettingsSectionTitle(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(start = 4.dp, top = 8.dp, bottom = 4.dp)
+    )
 }
