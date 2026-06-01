@@ -1,4 +1,4 @@
-﻿package com.mywallet.navigation
+package com.mywallet.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
