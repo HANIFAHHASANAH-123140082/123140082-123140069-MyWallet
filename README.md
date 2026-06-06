@@ -25,7 +25,7 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 
 - ▶️ [Demo Sprint 2 My-Wallet](https://drive.google.com/file/d/1FeOSdrNuSRtN2vJ53XGHaajSZcirldII/view?usp=drive_link)
 - ▶️ [Demo Sprint 3 My-Wallet](https://drive.google.com/file/d/187kRjo8srat9RaCW-ozL4qeWrPrYVMTU/view?usp=drive_link)
-- ▶️ Demo Sprint 4 My-Wallet (akan ditambahkan)
+- ▶️ [Demo Sprint 4 My-Wallet](https://drive.google.com/file/d/1nEzfRM7mW1XmbGsERlk2dC2HN3Lf_SMP/view?usp=drive_link)
 
 ---
 
@@ -116,7 +116,12 @@ git checkout project/123140082-123140069-MyWallet
 # Jalankan unit test spesifik
 ./gradlew :composeApp:testDebugUnitTest
 ```
+## Test Results
 
+![Test Report](screenshots/test-report.png)
+
+- Unit Tests: 11 tests, 0 failures, 100% 
+- UI Tests: 6 tests (HomeScreenUiTest, SavingsGoalUiTest, StatisticsUiTest)
 ### UI Tests (Instrumented)
 ```bash
 # Pastikan emulator/device sudah terhubung, lalu jalankan:
