@@ -138,7 +138,6 @@ git checkout project/123140082-123140069-MyWallet
 ```
 
 ---
-
 ## Download
 
 ▶️ [Download MyWallet APK](https://drive.google.com/file/d/1Z_lkRoR6HGi6K4IVWYrqXXb9VpHpL7Yl/view?usp=drive_link)
