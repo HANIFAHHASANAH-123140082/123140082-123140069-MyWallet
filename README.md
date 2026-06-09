@@ -21,12 +21,6 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 
 ---
 
-## Download
-
-▶️ [Download MyWallet APK](https://drive.google.com/file/d/1N0Ze11ROui55cae1AaObV81PirGtXVbb/view?usp=sharing)
-
----
-
 ## Video Demo
 
 - ▶️ [Demo Sprint 2 My-Wallet](https://drive.google.com/file/d/1FeOSdrNuSRtN2vJ53XGHaajSZcirldII/view?usp=drive_link)
@@ -56,24 +50,6 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 - [ ] Animations
 - [x] CI/CD
 - [ ] Play Store Ready
-
----
-
-## Screenshots
-
-<table>
-  <tr>
-    <td align="center"><img src="screenshots/home.jpeg" width="160"/><br/><b>Home</b></td>
-    <td align="center"><img src="screenshots/riwayat-transaksi.jpeg" width="160"/><br/><b>Riwayat Transaksi</b></td>
-    <td align="center"><img src="screenshots/tambah-transaksi.jpeg" width="160"/><br/><b>Tambah Transaksi</b></td>
-    <td align="center"><img src="screenshots/analisis-keuangan.jpeg" width="160"/><br/><b>Analisis Keuangan</b></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="screenshots/tabungan.jpeg" width="160"/><br/><b>Target Tabungan</b></td>
-    <td align="center"><img src="screenshots/profil.jpeg" width="160"/><br/><b>Profil</b></td>
-    <td align="center"><img src="screenshots/dark-mode.jpeg" width="160"/><br/><b>Dark Mode</b></td>
-  </tr>
-</table>
 
 ---
 
@@ -162,6 +138,9 @@ git checkout project/123140082-123140069-MyWallet
 ```
 
 ---
+## Download
+
+▶️ [Download MyWallet APK](https://drive.google.com/file/d/1N0Ze11ROui55cae1AaObV81PirGtXVbb/view?usp=sharing)
 
 ## Struktur Tests
 
