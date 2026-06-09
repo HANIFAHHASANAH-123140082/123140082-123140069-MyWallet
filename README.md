@@ -21,6 +21,12 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 
 ---
 
+## Download
+
+▶️ [Download MyWallet APK](https://drive.google.com/file/d/1ZBrj99ZBzjfz2y7MbzOJeBXRrvIwidgb/view?usp=sharing)
+
+---
+
 ## Video Demo
 
 - ▶️ [Demo Sprint 2 My-Wallet](https://drive.google.com/file/d/1FeOSdrNuSRtN2vJ53XGHaajSZcirldII/view?usp=drive_link)
@@ -138,9 +144,6 @@ git checkout project/123140082-123140069-MyWallet
 ```
 
 ---
-## Download
-
-▶️ [Download MyWallet APK](https://drive.google.com/file/d/1ZBrj99ZBzjfz2y7MbzOJeBXRrvIwidgb/view?usp=sharing)
 
 ## Struktur Tests
 
