@@ -140,7 +140,7 @@ git checkout project/123140082-123140069-MyWallet
 ---
 ## Download
 
-▶️ [Download MyWallet APK](https://drive.google.com/file/d/1N0Ze11ROui55cae1AaObV81PirGtXVbb/view?usp=sharing)
+▶️ [Download MyWallet APK](https://drive.google.com/file/d/1ZBrj99ZBzjfz2y7MbzOJeBXRrvIwidgb/view?usp=sharing)
 
 ## Struktur Tests
 
@@ -168,7 +168,7 @@ git checkout project/123140082-123140069-MyWallet
 | Sprint 2 | W12 | Core features: screens, navigasi, data layer, CRUD | Done |
 | Sprint 3 | W13 | API integration, search, offline support, dark mode | Done |
 | Sprint 4 | W14 | UI polish, bug fixes, testing | Done |
-| Sprint 5 | W15 | Final preparation, demo prep | Upcoming |
+| Sprint 5 | W15 | Final preparation, demo prep | Done |
 | UAS | W16 | Final Demo Day | Upcoming |
 
 ---
