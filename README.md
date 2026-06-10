@@ -27,6 +27,10 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 
 ---
 
+## Video Presentasi My Wallet 123140082-123140069
+
+[![Demo My Wallet](https://img.youtube.com/vi/.../maxresdefault.jpg)](link ytb)
+
 ## Video Demo
 
 - ▶️ [Demo Sprint 2 My-Wallet](https://drive.google.com/file/d/1FeOSdrNuSRtN2vJ53XGHaajSZcirldII/view?usp=drive_link)
@@ -189,7 +193,7 @@ git checkout project/123140082-123140069-MyWallet
 | Sprint 2 | W12 | Core features: screens, navigasi, data layer, CRUD | Done |
 | Sprint 3 | W13 | API integration, search, offline support, dark mode | Done |
 | Sprint 4 | W14 | UI polish, bug fixes, testing | Done |
-| Sprint 5 | W15 | Final preparation, demo prep | Upcoming |
+| Sprint 5 | W15 | Final preparation, demo prep | Done |
 | UAS | W16 | Final Demo Day | Upcoming |
 
 ---
