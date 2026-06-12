@@ -29,7 +29,9 @@ MyWallet adalah aplikasi pencatat keuangan pribadi yang membantu pengguna melaca
 
 ## Video Presentasi My Wallet 123140082-123140069
 
-▶️ [Demo My Wallet](https://youtu.be/TB6eA-g8A2g?si=4o8jKhIzQAetjd7K)
+[![Demo My Wallet](https://img.youtube.com/vi/TB6eA-g8A2g/maxresdefault.jpg)](https://www.youtube.com/watch?v=TB6eA-g8A2g)
+
+---
 
 ## Video Demo
 
